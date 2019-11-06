@@ -8,6 +8,7 @@
          version="3.1" metadata-complete="true">
 
 
+
             <servlet>
               <servlet-name>UserServlet</servlet-name>
               <servlet-class>com.javaweb.servlet.UserServlet</servlet-class>

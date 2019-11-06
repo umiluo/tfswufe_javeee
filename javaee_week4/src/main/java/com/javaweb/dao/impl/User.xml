@@ -5,6 +5,22 @@
 <mapper namespace="com.javaweb.dao.impl.UserDao">
 
     <!--查询数据-->
+    <!-- if判断条件 -->
+    <select id="userListAssociation" resultMap="userRoleAssociation">
+        select u.*,r.id as r_id,r.roleName,r.roleCode from smbms_user u,smbms_role r
+        where u.userRole = r.id
+        <!-- 如果userName不是空值null的话，则进入if -->
+        <if test="userName!=null">
+            and
+            `userName` LIKE CONCAT('%',#{userName},'%')
+        </if>
+        <!-- 如果userRole不是空值null的话，则进入if -->
+        <if test="userRole!=null">
+            AND
+            `userRole`=#{userRole}
+        </if>
+    </select>
+
     <select id="selectall" resultType="com.javaweb.dao.entity.User">
         SELECT * FROM user
     </select>
