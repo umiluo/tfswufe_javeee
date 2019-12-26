@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.java.test.Test">
+    <!--
+    select标签：存放的是查询sql语
+    resultType属性：指定返回值类型
+    id属性：与dao类的方法名保持一致
+    -->
+    <select id="SeletTest"  parameterType="String" resultMap="UserResult">
+        SELECT u.*,o.* FROM `user` u,`order` o WHERE u.user_id = o.user_id
+                <choose>
+            <when test="user_name !=null and user_name !='' and user_password ==null or user_password ==''">
+               AND u.user_name LIKE '%${user_name}%'
+            </when>
+            <when test="user_password !=null and user_password !='' and user_name ==null or user_name ==''">
+                AND u.user_password LIKE '%${user_password}%'
+            </when>
+            <when test="user_name !=null and user_name !='' and user_password !=null and user_password !=''">
+                AND u.user_name LIKE '%${user_name}%' AND u.user_password LIKE '%${user_password}%'
+            </when>
+        </choose>
+    </select>
+    <resultMap id="UserResult" type="main.java.test.modle.User">
+      <id property="user_id" column="user_id"/>
+      <result property="user_name" column="user_name"/>
+      <result property="user_password" column="user_password"/>
+      <collection property="orders" ofType="main.java.test.modle.Order">
+          <id property="order_id" column="order_id"/>
+          <result property="user_id" column="user_id"/>
+          <result property="order_site" column="order_site"/>
+      </collection>
+    </resultMap>
+</mapper>
